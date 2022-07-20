@@ -1,0 +1,2 @@
+# goiac
+Simple configuration manager
