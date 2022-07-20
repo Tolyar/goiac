@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/Tolyar/goiac/pkg/sysinfo"
+	"github.com/k0kubun/pp/v3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -18,14 +19,14 @@ var rootCmd = &cobra.Command{
 	Short: "Universal package manager",
 	Long:  `upkg can be used instead of yum, dnf, apt, ...`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("OS:", sysinfo.OS())
-		fmt.Println("Arch:", sysinfo.Arch())
+		pp.Println("OS:", sysinfo.OS())
+		pp.Println("Arch:", sysinfo.Arch())
 		if sysinfo.OS() == "linux" {
 			lr, err := sysinfo.LinuxRelease()
 			if err != nil {
 				log.Fatalf("Error %+v", err)
 			}
-			fmt.Printf("Linux info: %v\n", lr)
+			pp.Println("Linux info:", lr)
 		}
 	},
 }
