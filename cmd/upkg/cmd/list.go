@@ -15,6 +15,7 @@ var listUpgradable = false
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List installed packages",
+	Args:  cobra.MaximumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		p, err := packages.GetProvider()
 		cobra.CheckErr(err)
