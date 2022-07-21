@@ -138,3 +138,8 @@ func (p *Provider) Remove(args ...string) {
 func (p *Provider) Search(args ...string) {
 	p.run(p.search, args...)
 }
+
+//  Which packages resource.
+func (p *Provider) Provides(args ...string) {
+	p.run(p.provides, args...)
+}
