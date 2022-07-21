@@ -19,6 +19,7 @@ var infoCmd = &cobra.Command{
 		cobra.CheckErr(err)
 		p.Info(args...)
 	},
+	Aliases: []string{"show"},
 }
 
 func init() {
