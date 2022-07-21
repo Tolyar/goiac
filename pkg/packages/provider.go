@@ -133,3 +133,8 @@ func (p *Provider) ListUpdates(args ...string) {
 func (p *Provider) Remove(args ...string) {
 	p.run(p.remove, args...)
 }
+
+// Search package.
+func (p *Provider) Search(args ...string) {
+	p.run(p.search, args...)
+}
