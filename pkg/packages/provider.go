@@ -148,3 +148,13 @@ func (p *Provider) Provides(args ...string) {
 func (p *Provider) UpdateIndex(args ...string) {
 	p.run(p.updateIndex, args...)
 }
+
+// Upgrade packages.
+func (p *Provider) Upgrade(args ...string) {
+	p.run(p.upgrade, args...)
+}
+
+// Upgrade all packages.
+func (p *Provider) UpgradeAll(args ...string) {
+	p.run(p.upgradeAll, args...)
+}
