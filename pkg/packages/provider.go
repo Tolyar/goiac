@@ -128,3 +128,8 @@ func (p *Provider) ListInstalled(args ...string) {
 func (p *Provider) ListUpdates(args ...string) {
 	p.run(p.listUpdates, args...)
 }
+
+// Remove package.
+func (p *Provider) Remove(args ...string) {
+	p.run(p.remove, args...)
+}
