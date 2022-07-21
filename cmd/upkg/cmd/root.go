@@ -2,12 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/Tolyar/goiac/pkg/packages"
-	"github.com/Tolyar/goiac/pkg/sysinfo"
-	"github.com/k0kubun/pp/v3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -20,20 +16,25 @@ var rootCmd = &cobra.Command{
 	Short: "Universal package manager",
 	Long:  `upkg can be used instead of yum, dnf, apt, ...`,
 	Run: func(cmd *cobra.Command, args []string) {
-		pp.Println("OS:", sysinfo.OS())
-		pp.Println("Arch:", sysinfo.Arch())
-		if pm, err := packages.PMName(); err == nil {
-			pp.Println("package namager:", pm)
-		} else {
-			pp.Println("package namager is unknown.", err)
+		if len(args) == 0 {
+			_ = cmd.Help()
+			os.Exit(0)
 		}
-		if sysinfo.OS() == "linux" {
-			lr, err := sysinfo.LinuxRelease()
-			if err != nil {
-				log.Fatalf("Error %+v", err)
-			}
-			pp.Println("Linux info:", lr)
-		}
+		os.Exit(0)
+		// pp.Println("OS:", sysinfo.OS())
+		// pp.Println("Arch:", sysinfo.Arch())
+		// if pm, err := packages.PMName(); err == nil {
+		// 	pp.Println("package namager:", pm)
+		// } else {
+		// 	pp.Println("package namager is unknown.", err)
+		// }
+		// if sysinfo.OS() == "linux" {
+		// 	lr, err := sysinfo.LinuxRelease()
+		// 	if err != nil {
+		// 		log.Fatalf("Error %+v", err)
+		// 	}
+		// 	pp.Println("Linux info:", lr)
+		// }
 	},
 }
 
@@ -53,11 +54,11 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.upkg.yaml)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.upkg.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.
