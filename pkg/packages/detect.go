@@ -28,7 +28,7 @@ func LinuxPMName() (string, error) {
 	if err != nil {
 		return "unknown", err
 	}
-	id, ok := lr["id"]
+	id, ok := lr["ID"]
 	if !ok {
 		return "unknown", fmt.Errorf("Unknown ID in /etc/os-release")
 	}

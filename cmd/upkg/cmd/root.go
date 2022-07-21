@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Tolyar/goiac/pkg/packages"
 	"github.com/Tolyar/goiac/pkg/sysinfo"
 	"github.com/k0kubun/pp/v3"
 	"github.com/spf13/cobra"
@@ -21,6 +22,11 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		pp.Println("OS:", sysinfo.OS())
 		pp.Println("Arch:", sysinfo.Arch())
+		if pm, err := packages.PMName(); err == nil {
+			pp.Println("package namager:", pm)
+		} else {
+			pp.Println("package namager is unknown.", err)
+		}
 		if sysinfo.OS() == "linux" {
 			lr, err := sysinfo.LinuxRelease()
 			if err != nil {
