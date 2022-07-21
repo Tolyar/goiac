@@ -143,3 +143,8 @@ func (p *Provider) Search(args ...string) {
 func (p *Provider) Provides(args ...string) {
 	p.run(p.provides, args...)
 }
+
+//  Update packages.
+func (p *Provider) UpdateIndex(args ...string) {
+	p.run(p.updateIndex, args...)
+}
