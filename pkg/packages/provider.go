@@ -95,8 +95,11 @@ func GetProvider() (*Provider, error) {
 
 // Provider methods.
 
-func (p *Provider) Info(args ...string) {
-	args = append([]string{p.info}, args...)
+func (p *Provider) run(command string, args ...string) {
+	if command == "" {
+		log.Fatalf("Command %s does not implemented for provider %s", command, p.bin)
+	}
+	args = append([]string{command}, args...)
 	cmd := exec.Command(p.bin, args...)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
@@ -104,4 +107,24 @@ func (p *Provider) Info(args ...string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// SHow info.
+func (p *Provider) Info(args ...string) {
+	p.run(p.info, args...)
+}
+
+// Install package.
+func (p *Provider) Install(args ...string) {
+	p.run(p.install, args...)
+}
+
+// List installed packages.
+func (p *Provider) ListInstalled(args ...string) {
+	p.run(p.listInstalled, args...)
+}
+
+// List upgradable packages.
+func (p *Provider) ListUpdates(args ...string) {
+	p.run(p.listUpdates, args...)
 }
