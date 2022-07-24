@@ -7,6 +7,7 @@ import (
 )
 
 // Goiac main object.
+var Log *zerolog.Logger
 
 type GoIAC struct {
 	Globals config.Globals
@@ -21,6 +22,7 @@ func NewGoIAC(g config.Globals) *GoIAC {
 		Globals: g,
 	}
 
+	Log = goiac.Log
 	goiac.Stages = make([]Stage, 0)
 	goiac.Scripts = make([]Script, 0)
 
@@ -32,7 +34,7 @@ func (g *GoIAC) ReadConfig() error {
 	var err error
 
 	if g.Globals.ScriptPath != "" {
-		script, err = ReadScript(g.Globals.ScriptPath, g.Log, nil)
+		script, err = ReadScript(g.Globals.ScriptPath, nil)
 		if err != nil {
 			return err
 		}
