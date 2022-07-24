@@ -7,4 +7,5 @@ type Globals struct {
 	ModulePath  string
 	ScriptPath  string
 	LogLevel    string
+	Hostname    string
 }

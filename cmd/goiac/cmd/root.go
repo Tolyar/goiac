@@ -78,6 +78,10 @@ func initConfig() {
 	globals.ModulePath = config.FlagAndViper("module_path", flags, cfg)
 	globals.ScriptPath = config.FlagAndViper("script_path", flags, cfg)
 
+	h, err := os.Hostname()
+	cobra.CheckErr(err)
+	globals.Hostname = h
+
 	G = goiac.NewGoIAC(globals)
 	cobra.CheckErr(G.ReadConfig())
 }

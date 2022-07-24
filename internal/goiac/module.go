@@ -6,12 +6,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// TODO: Remove it...
-type Project struct {
-	Name       string `mapstructure:"name"`
-	Descrition string `mapstructure:"description,omitempty"`
-}
-
 // Working with modules.
 type Module struct {
 	Name        string   `mapstructure:"name"`

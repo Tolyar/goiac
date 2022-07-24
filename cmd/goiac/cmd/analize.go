@@ -28,6 +28,9 @@ var analizeCmd = &cobra.Command{
 				G.Log.Debug().Str("object", "stage").Int("idx", j).Str("script", s.Name).Msg(pp.Sprint(st))
 			}
 		}
+		if G.Project != nil {
+			G.Log.Info().Str("object", "project").Msg(pp.Sprint(G.Project))
+		}
 	},
 }
 
