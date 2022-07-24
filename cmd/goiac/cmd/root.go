@@ -5,29 +5,20 @@ Copyright © 2022 none
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/Tolyar/goiac/internal/config"
-	"github.com/Tolyar/goiac/internal/log"
-	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
-	logLevel     string
-	globals      config.Globals
-	logLevelsMap = map[string]zerolog.Level{
-		"trace":    zerolog.TraceLevel,
-		"debug":    zerolog.DebugLevel,
-		"info":     zerolog.InfoLevel,
-		"warn":     zerolog.WarnLevel,
-		"error":    zerolog.ErrorLevel,
-		"fatal":    zerolog.FatalLevel,
-		"panic":    zerolog.PanicLevel,
-		"disabled": zerolog.Disabled,
-	}
+	globals config.Globals
+	cfgFile string
+	goiac   config.GoIAC
 )
+
+const AppName = "goiac"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -60,23 +51,29 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVarP(&globals.ProjectPath, "project", "p", ".", "path to project directory")
-	rootCmd.PersistentFlags().StringVarP(&globals.ModulePath, "module", "m", "", "path to module's directory")
-	rootCmd.PersistentFlags().StringVarP(&globals.ScriptPath, "script", "s", "", "path to script")
-	rootCmd.PersistentFlags().StringVarP(&logLevel, "loglevel", "l", "info", "Log level: trace, debug, info, warn, error, fatal, panic, disable")
-	rootCmd.MarkFlagsMutuallyExclusive("module", "script")
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "Path to config file")
+	rootCmd.PersistentFlags().StringP("project_path", "p", ".", "path to project directory")
+	rootCmd.PersistentFlags().StringP("module_path", "m", "", "path to module's directory")
+	rootCmd.PersistentFlags().StringP("script_path", "s", "", "path to script")
+	rootCmd.PersistentFlags().StringP("log_level", "l", "", "Log level: trace, debug, info, warn, error, fatal, panic, disable")
+	rootCmd.MarkFlagsMutuallyExclusive("module_path", "script_path")
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if l, ok := logLevelsMap[logLevel]; ok {
-		globals.Log = *log.InitLog(l)
-	} else {
-		cobra.CheckErr(fmt.Errorf("Loglevel '%v' is incorrect. Possible values is: race, debug, info, warn, error, fatal, panic, disable.", logLevel))
-	}
-	globals.ReadConfiguration()
+	cfg := viper.New()
+	cfg.SetDefault("log_level", "info")
+	cfg.SetDefault("project_path", ".")
+	cfg.SetDefault("module_path", "")
+	cfg.SetDefault("script_path", "")
+	err := config.InitGlobalViper(cfg, AppName, cfgFile)
+	cobra.CheckErr(err)
+
+	flags := rootCmd.Flags()
+
+	// Read global values from viper and flags.
+	globals.LogLevel = config.FlagAndViper("log_level", flags, cfg)
+	globals.ProjectPath = config.FlagAndViper("project_path", flags, cfg)
+	globals.ModulePath = config.FlagAndViper("module_path", flags, cfg)
+	globals.ScriptPath = config.FlagAndViper("script_path", flags, cfg)
 }
