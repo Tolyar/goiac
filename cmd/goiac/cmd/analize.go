@@ -5,8 +5,7 @@ Copyright © 2022 none
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +15,8 @@ var analizeCmd = &cobra.Command{
 	Short: "Analize configuration file.",
 	Long:  `Analize configuration for debug purposes.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("analize called")
+		G.Log.Info().Str("object", "globals").Msg(pp.Sprint(G.Globals))
+		G.Log.Info().Str("object", "scripts").Msg(pp.Sprint(G.Scripts))
 	},
 }
 

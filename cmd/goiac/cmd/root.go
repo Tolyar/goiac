@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/Tolyar/goiac/internal/config"
+	"github.com/Tolyar/goiac/internal/goiac"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -15,7 +16,7 @@ import (
 var (
 	globals config.Globals
 	cfgFile string
-	goiac   config.GoIAC
+	G       *goiac.GoIAC
 )
 
 const AppName = "goiac"
@@ -76,4 +77,7 @@ func initConfig() {
 	globals.ProjectPath = config.FlagAndViper("project_path", flags, cfg)
 	globals.ModulePath = config.FlagAndViper("module_path", flags, cfg)
 	globals.ScriptPath = config.FlagAndViper("script_path", flags, cfg)
+
+	G = goiac.NewGoIAC(globals)
+	cobra.CheckErr(G.ReadConfig())
 }

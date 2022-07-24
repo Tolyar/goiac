@@ -1,0 +1,7 @@
+name: test
+stages:
+  - name: stage test
+    description: example stage
+    provider: packages
+    options:
+      zzzzz: qqqqqq

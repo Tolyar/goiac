@@ -39,5 +39,6 @@ func InitGlobalViper(cfg *viper.Viper, AppName string, cfgFile string) error {
 			return err
 		}
 	}
+
 	return nil
 }
