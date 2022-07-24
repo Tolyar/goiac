@@ -11,7 +11,7 @@ import (
 // Detect package manager for current OS.
 
 func PMName() (string, error) {
-	os := sysinfo.OS()
+	os := sysinfo.Platform()
 
 	switch os {
 	case "darwin":

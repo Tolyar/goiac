@@ -17,6 +17,7 @@ type GoIAC struct {
 	Scripts []*Script
 	Modules []*Module
 	Project *Project
+	Facts   Facts
 }
 
 func NewGoIAC(g config.Globals) *GoIAC {
@@ -29,6 +30,7 @@ func NewGoIAC(g config.Globals) *GoIAC {
 	goiac.Stages = make([]*Stage, 0)
 	goiac.Scripts = make([]*Script, 0)
 	G = &goiac
+	G.Facts = F
 
 	return &goiac
 }
