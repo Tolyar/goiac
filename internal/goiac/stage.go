@@ -21,14 +21,14 @@ func (s *Stage) ValidateStage(script *Script, idx int) error {
 	// Name is mandatory field.
 	if s.Name == "" {
 		Log.Error().Str("script", script.Name).Int("idx", idx).Msgf("Name is mandatory filed for stage.")
-		Log.Trace().Str("script", script.Name).Msgf("Stage object: %s", pp.Sprint(*s))
+		Log.Trace().Str("script", script.Name).Msgf("Script object: %s", pp.Sprint(script))
 		return fmt.Errorf("Script '%v': Name is mandatory filed for stage.", script.Name)
 	}
 
 	// Provider is mandatory field.
 	if s.Provider == "" {
 		Log.Error().Str("script", script.Name).Int("idx", idx).Msgf("Provider is mandatory filed for stage: %s", pp.Sprint(*s))
-		Log.Trace().Str("script", script.Name).Msgf("Stage object: %s", pp.Sprint(*s))
+		Log.Trace().Str("script", script.Name).Msgf("Script object: %s", pp.Sprint(script))
 		return fmt.Errorf("Script '%v': Provider is mandatory filed for stage.", script.Name)
 	}
 

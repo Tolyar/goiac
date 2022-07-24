@@ -7,9 +7,9 @@ import (
 )
 
 type Script struct {
-	Name        string  `mapstructure:"name"`
-	Description string  `mapstructure:"description,omitempty"`
-	Stages      []Stage `mapstructure:"stages"`
+	Name        string   `mapstructure:"name"`
+	Description string   `mapstructure:"description,omitempty"`
+	Stages      []*Stage `mapstructure:"stages"`
 	Module      *string
 }
 
