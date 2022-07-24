@@ -12,8 +12,10 @@ var Log *zerolog.Logger
 type GoIAC struct {
 	Globals config.Globals
 	Log     *zerolog.Logger
-	Stages  []Stage
-	Scripts []Script
+	Stages  []*Stage
+	Scripts []*Script
+	Modules []*Module
+	Project *Project
 }
 
 func NewGoIAC(g config.Globals) *GoIAC {
@@ -23,23 +25,29 @@ func NewGoIAC(g config.Globals) *GoIAC {
 	}
 
 	Log = goiac.Log
-	goiac.Stages = make([]Stage, 0)
-	goiac.Scripts = make([]Script, 0)
+	goiac.Stages = make([]*Stage, 0)
+	goiac.Scripts = make([]*Script, 0)
 
 	return &goiac
 }
 
 func (g *GoIAC) ReadConfig() error {
-	var script *Script
-	var err error
-
-	if g.Globals.ScriptPath != "" {
-		script, err = ReadScript(g.Globals.ScriptPath, nil)
+	if g.Globals.ModulePath != "" {
+		module, err := ReadModule(g.Globals.ModulePath, nil, 0)
 		if err != nil {
 			return err
 		}
+		g.Scripts = module.S
+		g.Modules = append(g.Modules, module)
 	}
 
-	g.Scripts = append(g.Scripts, *script)
+	if g.Globals.ScriptPath != "" {
+		script, err := ReadScript(g.Globals.ScriptPath, nil, 0)
+		if err != nil {
+			return err
+		}
+		g.Scripts = append(g.Scripts, script)
+	}
+
 	return nil
 }

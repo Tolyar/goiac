@@ -16,6 +16,12 @@ var analizeCmd = &cobra.Command{
 	Long:  `Analize configuration for debug purposes.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		G.Log.Info().Str("object", "globals").Msg(pp.Sprint(G.Globals))
+		for i, m := range G.Modules {
+			G.Log.Info().Str("object", "module").Int("idx", i).Msg(pp.Sprint(m))
+			for j, s := range m.S {
+				G.Log.Debug().Str("object", "script").Int("idx", j).Str("module", m.Name).Msg(pp.Sprint(s))
+			}
+		}
 		for i, s := range G.Scripts {
 			G.Log.Info().Str("object", "script").Int("idx", i).Msg(pp.Sprint(s))
 			for j, st := range s.Stages {
