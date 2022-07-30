@@ -19,6 +19,7 @@ type Project struct {
 	Roles       map[string][]string `mapstructure:"roles,omitempty"`
 	Hosts       map[string]Host     `mapstructure:"hosts,omitempty"`
 	Modules     []*Module
+	Var         map[string]interface{} `mapstructure:"var,omitempty"`
 }
 
 // Read module from directory.
@@ -49,6 +50,8 @@ func ReadProject(path string, hostName string) (*Project, error) {
 		Log.Error().Str("path", path).Msg("Roles is mandatory filed for project")
 		return nil, fmt.Errorf("Roles is mandatory filed for project '%v'", path)
 	}
+
+	G.Facts.Var = project.Var
 
 	// Build modules list from host and roles. Always use hostname from host (hostname -s) but not from -H.
 	if project.Roles != nil {

@@ -4,3 +4,8 @@ roles:
   all:
     - test_all
 
+var:
+  test1: "zzzzzzz"
+  test2:
+  - dsfdasfd
+  - fgfgfgfg

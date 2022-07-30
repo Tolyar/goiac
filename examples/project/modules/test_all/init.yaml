@@ -1,3 +1,4 @@
 name: test module
+description: "test1 var from project: {{ .Facts.Var.test1 }}. test2 {{ .Facts.Var.test2 }}"
 scripts:
   - test.yaml
