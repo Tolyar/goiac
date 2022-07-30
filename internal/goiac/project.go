@@ -2,8 +2,6 @@ package goiac
 
 import (
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
 type Host struct {
@@ -14,27 +12,25 @@ type Host struct {
 }
 
 type Project struct {
-	Name       string              `mapstructure:"name"`
-	Descrition string              `mapstructure:"description,omitempty"`
-	Platform   string              `mapstructure:"platform,omitempty"`
-	Arch       string              `mapstructure:"arch,omitempty"`
-	Roles      map[string][]string `mapstructure:"roles,omitempty"`
-	Hosts      map[string]Host     `mapstructure:"hosts,omitempty"`
-	Modules    []*Module
+	Name        string              `mapstructure:"name"`
+	Description string              `mapstructure:"description,omitempty"`
+	Platform    string              `mapstructure:"platform,omitempty"`
+	Arch        string              `mapstructure:"arch,omitempty"`
+	Roles       map[string][]string `mapstructure:"roles,omitempty"`
+	Hosts       map[string]Host     `mapstructure:"hosts,omitempty"`
+	Modules     []*Module
 }
 
 // Read module from directory.
 func ReadProject(path string, hostName string) (*Project, error) {
 	var moduleList []string
-	cfg := viper.New()
 	initPath := path + "/init.yaml"
-	cfg.SetConfigFile(initPath)
-	cfg.SetConfigType("yaml")
-	err := cfg.ReadInConfig()
+	cfg, err := ReadAndTemplate(initPath)
 	if err != nil {
-		Log.Error().Err(err).Str("path", path).Msg("Can't read project.")
+		Log.Error().Err(err).Str("path", path).Msg("Can't read project file.")
 		return nil, err
 	}
+
 	project := Project{}
 	err = cfg.Unmarshal(&project)
 	if err != nil {

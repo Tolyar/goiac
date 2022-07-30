@@ -14,9 +14,11 @@ func ReadAndTemplate(path string) (*viper.Viper, error) {
 	if err != nil {
 		return nil, err
 	}
+	t.Option("missingkey=zero")
 	if err := t.Execute(&tpl, G); err != nil {
 		return nil, err
 	}
+	defer tpl.Reset()
 	cfg := viper.New()
 	cfg.SetConfigType("yaml")
 	parsed := bytes.NewReader(tpl.Bytes())

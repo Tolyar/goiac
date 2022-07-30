@@ -2,14 +2,12 @@ package goiac
 
 import (
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
 // Working with modules.
 type Module struct {
 	Name        string   `mapstructure:"name"`
-	Descrition  string   `mapstructure:"description,omitempty"`
+	Description string   `mapstructure:"description,omitempty"`
 	Version     int      `mapstructure:"version"`
 	Author      string   `mapstructure:"author,omitempty"`
 	License     string   `mapstructure:"license,omitempty"`
@@ -21,15 +19,13 @@ type Module struct {
 
 // Read module from directory.
 func ReadModule(path string, project *Project, idx int) (*Module, error) {
-	cfg := viper.New()
 	initPath := path + "/init.yaml"
-	cfg.SetConfigFile(initPath)
-	cfg.SetConfigType("yaml")
-	err := cfg.ReadInConfig()
+	cfg, err := ReadAndTemplate(initPath)
 	if err != nil {
 		Log.Error().Err(err).Str("path", path).Msg("Can't read module file.")
 		return nil, err
 	}
+
 	module := Module{}
 	err = cfg.Unmarshal(&module)
 	if err != nil {
