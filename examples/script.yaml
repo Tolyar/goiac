@@ -5,3 +5,5 @@ stages:
     provider: packages
     options:
       zzzzz: qqqqqq
+      test1: "{{ .Facts.SysInfo.Platform }}"
+ 

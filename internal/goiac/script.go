@@ -2,8 +2,6 @@ package goiac
 
 import (
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
 type Script struct {
@@ -16,10 +14,7 @@ type Script struct {
 
 // Read script from file and return Script object.
 func ReadScript(path string, module *Module, idx int) (*Script, error) {
-	cfg := viper.New()
-	cfg.SetConfigFile(path)
-	cfg.SetConfigType("yaml")
-	err := cfg.ReadInConfig()
+	cfg, err := ReadAndTemplate(path)
 	if err != nil {
 		Log.Error().Err(err).Str("path", path).Msg("Can't read script file.")
 		return nil, err
